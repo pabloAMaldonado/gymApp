@@ -4,16 +4,20 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "build": "npm run build --workspaces"
+    "install-client": "cd client && pnpm install",
+    "install-server": "cd server && pnpm install",
+    "test": "cd client && pnpm test",
+    "build": "cd client && pnpm build",
+    "eslint-client": "cd client && pnpm eslint",
+    "eslint-server": "cd server && pnpm eslint",
+    "start": "cd server && pnpm start"
   },
   "workspaces": [
     "client",
-    "server_noSQL",
-    "server_SQL"
+    "server"
   ],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@flydotio/dockerfile": "^0.5.7"
   }
 }
