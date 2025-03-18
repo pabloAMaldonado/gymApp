@@ -33,7 +33,7 @@
  * /login:
  *   post:
  *     summary: User login
- *     description: Login a user with username and password
+ *     description: Login a user with username and password, and set a JWT token in an HTTP-only cookie.
  *     tags:
  *       - User
  *     requestBody:
@@ -50,6 +50,11 @@
  *     responses:
  *       200:
  *         description: User logged in successfully
+ *         headers:
+ *           Set-Cookie:
+ *             schema:
+ *               type: string
+ *               example: token=jwtToken; HttpOnly; Secure; SameSite=Strict
  *         content:
  *           application/json:
  *             schema:
@@ -58,9 +63,6 @@
  *                 message:
  *                   type: string
  *                   description: A message indicating the successful login
- *                 userToken:
- *                   type: string
- *                   description: JWT token for the authenticated user
  *                 user:
  *                   type: string
  *                   description: The username of the authenticated user

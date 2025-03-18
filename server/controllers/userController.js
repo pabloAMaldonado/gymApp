@@ -20,11 +20,9 @@ exports.userSignUp = asyncHandler(async (req, res, next) => {
 
   if (user) {
     if (user.username === username) {
-      console.log(1);
       return res.status(400).send('Error creating new user, Username already used');
     }
     if (user.email === email) {
-      console.log(2);
       return res.status(400).send('Error creating new user, Email already used');
     }
   }
@@ -40,7 +38,6 @@ exports.userSignUp = asyncHandler(async (req, res, next) => {
 
     await newUser.save();
 
-    console.log('Usuario creado con exito');
     res.status(200).send('User registered successfully, verification email sent');
     return next();
   }
@@ -61,7 +58,10 @@ exports.userLogin = asyncHandler(async (req, res, next) => {
     }
     try {
       const userToken = generateToken(user);
-      return res.status(200).send({ message: 'User logged in successfully', userToken, user });
+      return res
+        .status(200)
+        .cookie('token', userToken, { httpOnly: true, secure: true, sameSite: "strict" })
+        .send({ message: 'User logged in successfully', user });
     }
     catch (error) {
       return next(error);

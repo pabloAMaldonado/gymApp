@@ -3,10 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "start-test": "NODE_ENV=development nodemon app.js" ,
     "start": "node app.js",
-    "dev": "nodemon app.js",
-    "deploy": "fly deploy",
-    "logs:prod": "fly logs"
+    "dev": "nodemon app.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

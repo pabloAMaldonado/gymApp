@@ -18,7 +18,7 @@ mongoose.set('strictQuery', false);
 
 const { mongoUrl, SESSION_SECRET } = process.env;
 
-const database = 'gymApp';
+const database = process.env.NODE_ENV === 'development' ? 'gymAppTest' : 'gymApp';
 
 const mongoDb = `${mongoUrl + database}?retryWrites=true&w=majority`;
 

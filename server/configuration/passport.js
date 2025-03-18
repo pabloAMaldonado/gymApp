@@ -15,24 +15,17 @@ const { jwtTokenSecret } = process.env;
 passport.use(
   new LocalStrategy({ usernameField: 'email' }, async (email, password, done) => {
     try {
-      console.log('correo electronico:', email);
-      console.log('Contraseña recibida:', password);
       const user = await User.findOne({ email });
-      console.log(user);
       if (!user) {
-        console.log(user, 1);
         return done(null, false, { message: 'Incorrect email', user });
       }
       const match = await bcrypt.compare(password, user.password);
       if (!match) {
-        console.log(user, 2);
         return done(null, false, { message: 'Incorrect password', user });
       }
       if (!user.verified) {
-        console.log(user);
         return done(null, false, { message: 'User not verified', user });
       }
-      console.log(user, 3);
       return done(null, user);
     }
     catch (err) {
@@ -57,7 +50,7 @@ passport.use(new JwtStrategy({
 }, (jwtPayload, done) => done(null, jwtPayload)));
 
 function generateToken(prop) {
-  return jwt.sign({ prop }, jwtTokenSecret, { expiresIn: '1h' });
+  return jwt.sign({ prop }, jwtTokenSecret);
 }
 
 function authenticateToken(req, res, next) {
