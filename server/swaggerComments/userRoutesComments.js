@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 
 /**
- * @openapi
+ * @swagger
  * /new-user:
  *   post:
  *     summary: Register a new user
@@ -72,10 +72,27 @@
 
 /**
  * @swagger
- * /user/:verificationId:
+ * /logout:
+ *   post:
+ *     summary: Logs out the user
+ *     description: Clears the authentication token from the cookies and logs out the user.
+ *     tags:
+ *       - User
+ *     security:
+ *       - cookieAuth: []
+ *     responses:
+ *       200:
+ *         description: User logged out successfully
+ *       401:
+ *         description: Unauthorized - No valid authentication token provided
+ */
+
+/**
+ * @swagger
+ * /verify/:verificationId:
  *   put:
- *     summary: Verify user by verification ID
- *     description: Verify a user by their verification ID
+ *     summary: Verify a user account
+ *     description: Validates a user's verification ID and updates their account as verified.
  *     tags:
  *       - User
  *     parameters:
@@ -84,14 +101,53 @@
  *         required: true
  *         schema:
  *           type: string
- *         description: The verification ID of the user
+ *         description: Unique verification ID sent to the user
  *     responses:
  *       200:
- *         description: User verified successfully.
- *       500:
- *         description: Error verifying user.
+ *         description: User verified successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: "User verified successfully."
+ *                 user:
+ *                   type: object
+ *                   description: The updated user object
  *       404:
- *         User not found or already verified.
+ *         description: User not found or already verified
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: "User not found or already verified."
+ *       500:
+ *         description: Server error while verifying the user
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: "Error verifying user."
+ *                 error:
+ *                   type: string
+ *                   description: The error message from the server
  */
 
 /**

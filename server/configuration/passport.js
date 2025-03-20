@@ -16,10 +16,12 @@ passport.use(
   new LocalStrategy({ usernameField: 'email' }, async (email, password, done) => {
     try {
       const user = await User.findOne({ email });
+
       if (!user) {
         return done(null, false, { message: 'Incorrect email', user });
       }
       const match = await bcrypt.compare(password, user.password);
+      
       if (!match) {
         return done(null, false, { message: 'Incorrect password', user });
       }
@@ -54,8 +56,7 @@ function generateToken(prop) {
 }
 
 function authenticateToken(req, res, next) {
-  const authHeader = req.headers.authorization;
-  const token = authHeader && authHeader.split(' ')[1];
+  const token = req.cookies.token;
   if (!token) {
     return res.status(401).json({ message: 'Token no proporcionado' });
   }
@@ -71,10 +72,9 @@ function authenticateToken(req, res, next) {
 }
 
 function optionalAuthToken(req, res, next) {
-  const authHeader = req.headers.authorization;
+  const token = req.cookies.token;
 
-  if (authHeader) {
-    const token = authHeader && authHeader.split(' ')[1];
+  if (token) {
 
     jwt.verify(token, jwtTokenSecret, (err, user) => {
       if (err) {
@@ -87,9 +87,15 @@ function optionalAuthToken(req, res, next) {
   return next();
 }
 
+const logoutMiddleware = (req, res, next) => {
+  res.clearCookie('token', { httpOnly: true, secure: true, sameSite: 'strict' });
+  next();
+};
+
 module.exports = {
   passport,
   generateToken,
   authenticateToken,
-  optionalAuthToken
+  optionalAuthToken,
+  logoutMiddleware
 };

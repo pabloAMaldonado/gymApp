@@ -32,7 +32,7 @@ const userSlice = createSlice({
 
 export const { loginUser, logoutUser } = userSlice.actions
 
-export const setToken = (credentials: userCredentials): ThunkAction<void, RootState, unknown, UnknownAction>  => {
+export const loginToken = (credentials: userCredentials): ThunkAction<void, RootState, unknown, UnknownAction>  => {
 	return async dispatch => {
 		try {
 			const user = await loginService.postLogin(credentials)
@@ -44,12 +44,15 @@ export const setToken = (credentials: userCredentials): ThunkAction<void, RootSt
 	}
 }
 
-export const logoutToken = (event: React.MouseEvent<HTMLButtonElement>): ThunkAction<void, RootState, unknown, UnknownAction> => {
-	return  dispatch => {
-		event.preventDefault()
-		loginService.postLogout()
-
-		dispatch(logoutUser())
+export const logoutToken = (): ThunkAction<void, RootState, unknown, UnknownAction> => {
+	return async dispatch => {
+		try {
+			loginService.postLogout()
+			dispatch(logoutUser())
+		} catch (err) {
+			// dispatch(setNotificationWithTimeout('Error on logout.', 3))
+		}
+		
 	}
 }
 

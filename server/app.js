@@ -25,8 +25,6 @@ const mongoDb = `${mongoUrl + database}?retryWrites=true&w=majority`;
 async function connectToDatabase() {
   try {
     await mongoose.connect(mongoDb, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
     });
     console.log('Connected to MongoDB');
   }

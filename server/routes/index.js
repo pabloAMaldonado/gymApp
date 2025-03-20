@@ -20,6 +20,7 @@ router
   .get('/user/info', userController.userInfo)
   .post('/new-user', userController.userSignUp, API.sendVerification)
   .post('/login', userController.userLogin)
+  .post('/logout', userController.userLogout)
   .put('/user/:verificationId', API.userVerification)
   .put('/user/add-data', userController.userAddInfo)
   .put('/user/profile-pic', userController.userAddProfileImg);

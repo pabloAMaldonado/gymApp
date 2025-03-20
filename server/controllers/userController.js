@@ -3,7 +3,7 @@ const dotenv = require('dotenv');
 const crypto = require('crypto');
 const asyncHandler = require('express-async-handler');
 
-const { passport, generateToken, authenticateToken } = require('../configuration/passport');
+const { passport, generateToken, authenticateToken, logoutMiddleware } = require('../configuration/passport');
 const { upload } = require('../configuration/api');
 
 dotenv.config();
@@ -26,25 +26,26 @@ exports.userSignUp = asyncHandler(async (req, res, next) => {
       return res.status(400).send('Error creating new user, Email already used');
     }
   }
+
   const verificationId = crypto.randomBytes(16).toString('hex');
-  try {
-    const newUser = new User({
-      username,
-      password: hashedPassword,
-      email,
-      verified: false,
-      verification: verificationId
-    });
+    try {
+      const newUser = new User({
+        username,
+        password: hashedPassword,
+        email,
+        verified: false,
+        verification: verificationId
+      });
 
-    await newUser.save();
+      await newUser.save();
 
-    res.status(200).send('User registered successfully, verification email sent');
-    return next();
-  }
-  catch (error) {
-    console.log(3);
-    return res.status(400).send('Error registering new user');
-  }
+      res.status(200).send('User registered successfully, verification email sent');
+      return next();
+    }
+    catch (error) {
+      console.log(3);
+      return res.status(400).send('Error registering new user');
+    }
 });
 
 exports.userLogin = asyncHandler(async (req, res, next) => {
@@ -68,6 +69,15 @@ exports.userLogin = asyncHandler(async (req, res, next) => {
     }
   })(req, res, next);
 });
+
+exports.userLogout = [
+  authenticateToken,
+  logoutMiddleware,
+  asyncHandler(async (req, res) => {
+    req.cookies.token = null;
+    return res.status(200).send('User logged out successfully');
+  }
+)];
 
 exports.userAddInfo = [
   authenticateToken,

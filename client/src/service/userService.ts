@@ -1,15 +1,28 @@
 import axios from 'axios'
-const baseUrl = '/api/users/login'
+const baseUrl = '/api/'
 
-import { userCredentials } from '../types'
+import { userCredentials, newUser } from '../types'
+
+axios.defaults.withCredentials = true
 
 const postLogin = async (credentials: userCredentials) => {
-	const res = await axios.post(baseUrl, credentials)
+	const res = await axios.post(baseUrl + 'login', credentials, { withCredentials: true })
 	return res.data
 }
 
-const postLogout = () => {
-	window.localStorage.removeItem('user')
+const postLogout = async () => {
+	const res = await axios.post(baseUrl + 'logout', { withCredentials: true })
+	return res.data
 }
 
-export default { postLogin, postLogout }
+const registerUser = async (credentials: newUser) => {
+	const res = await axios.post(baseUrl + 'new-user', credentials)
+	return res.data
+}
+
+const userVerification = async (id: string) => {
+	const  res = await axios.put(baseUrl + `/verify/:${id}`)
+	return res.data
+}
+
+export default { postLogin, postLogout, registerUser, userVerification }
