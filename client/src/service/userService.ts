@@ -7,6 +7,7 @@ axios.defaults.withCredentials = true
 
 const postLogin = async (credentials: userCredentials) => {
 	const res = await axios.post(baseUrl + 'login', credentials, { withCredentials: true })
+	console.log(res)
 	return res.data
 }
 

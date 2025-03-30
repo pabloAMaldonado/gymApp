@@ -144,7 +144,7 @@ const options = {
 const swaggerSpec = swaggerJSDoc(options);
 
 exports.swaggerDocs = (app) => {
-  app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+  app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
   console.log(
     'Version 1 Docs are available on /api-docs'
   );

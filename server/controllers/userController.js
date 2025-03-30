@@ -57,14 +57,20 @@ exports.userLogin = asyncHandler(async (req, res, next) => {
       console.log(user);
       return res.status(401).json({ error: 'Unauthorized - Incorrect username or password', user });
     }
+    
     try {
       const userToken = generateToken(user);
-      return res
-        .status(200)
-        .cookie('token', userToken, { httpOnly: true, secure: true, sameSite: "strict" })
-        .send({ message: 'User logged in successfully', user });
-    }
-    catch (error) {
+      res.cookie('token', userToken, { 
+        httpOnly: true, 
+        secure: process.env.NODE_ENV === 'production', 
+        sameSite: "strict" 
+      });
+
+      return res.status(200).json({
+        message: 'User logged in successfully',
+        user
+      });
+    } catch (error) {
       return next(error);
     }
   })(req, res, next);

@@ -5,7 +5,6 @@ import { ThunkAction } from 'redux-thunk'
 import { createSlice } from '@reduxjs/toolkit'
 
 import loginService from '../service/userService.ts'
-// import { setNotificationWithTimeout } from './notiReducer'                    to add notification service
 
 import { userCredentials } from '../types'
 
@@ -37,9 +36,7 @@ export const loginToken = (credentials: userCredentials): ThunkAction<void, Root
 		try {
 			const user = await loginService.postLogin(credentials)
 			dispatch(loginUser(user))
-			// dispatch(setNotificationWithTimeout(`${user.name} logged in.`, 5))
 		} catch (err) {
-			// dispatch(setNotificationWithTimeout('Error on credentials.', 3))
 		}
 	}
 }
@@ -50,7 +47,6 @@ export const logoutToken = (): ThunkAction<void, RootState, unknown, UnknownActi
 			loginService.postLogout()
 			dispatch(logoutUser())
 		} catch (err) {
-			// dispatch(setNotificationWithTimeout('Error on logout.', 3))
 		}
 		
 	}
