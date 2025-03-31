@@ -4,10 +4,26 @@ export interface userCredentials {
     password: string
 }
 
-export interface newUser {
+export interface userCredentialsRegistration {
     username: string,
     password: string,
     name: string,
     email: string,
-    dateBirth: string | null
+    dateBirth?: string
+}
+
+interface Comment {
+    type: string;
+    createdAt: Date; 
+    commentBy: string;
+}
+  
+export interface Exercise {
+    name: string;
+    type: string;
+    muscle: string;
+    example: string;
+    description?: string;
+    comments?: Comment[];
+    approvedBy?: string;
 }

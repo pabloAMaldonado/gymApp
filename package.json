@@ -11,7 +11,8 @@
     "eslint-client": "cd client && pnpm eslint",
     "eslint-server": "cd server && pnpm eslint",
     "start": "cd server && pnpm start",
-    "dev": "cd server && pnpm start-test"
+    "dev": "cd server && pnpm start-test",
+    "dev-client": "cd client && pnpm dev"
   },
   "workspaces": [
     "client",

@@ -1,7 +1,7 @@
 import axios from 'axios'
 const baseUrl = '/api/'
 
-import { userCredentials, newUser } from '../types'
+import { userCredentials, userCredentialsRegistration } from '../types'
 
 axios.defaults.withCredentials = true
 
@@ -16,7 +16,7 @@ const postLogout = async () => {
 	return res.data
 }
 
-const registerUser = async (credentials: newUser) => {
+const registerUser = async (credentials: userCredentialsRegistration) => {
 	const res = await axios.post(baseUrl + 'new-user', credentials)
 	return res.data
 }
