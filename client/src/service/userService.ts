@@ -22,7 +22,7 @@ const registerUser = async (credentials: userCredentialsRegistration) => {
 }
 
 const userVerification = async (id: string) => {
-	const  res = await axios.put(baseUrl + `/verify/:${id}`)
+	const  res = await axios.put(baseUrl + `verify/:${id}`)
 	return res.data
 }
 

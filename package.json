@@ -19,7 +19,5 @@
     "server"
   ],
   "author": "",
-  "license": "ISC",
-  "devDependencies": {
-  }
+  "license": "ISC"
 }

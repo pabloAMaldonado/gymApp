@@ -7,9 +7,7 @@ export interface userCredentials {
 export interface userCredentialsRegistration {
     username: string,
     password: string,
-    name: string,
     email: string,
-    dateBirth?: string
 }
 
 interface Comment {
@@ -19,6 +17,7 @@ interface Comment {
 }
   
 export interface Exercise {
+    _id?: string;
     name: string;
     type: string;
     muscle: string;
@@ -26,4 +25,31 @@ export interface Exercise {
     description?: string;
     comments?: Comment[];
     approvedBy?: string;
+}
+
+interface RoutineExercise {
+  exercise: string;
+  sets?: number;
+  reps?: number;
+}
+
+interface RoutineDay {
+  exercises: RoutineExercise[];
+}
+
+export interface Routine {
+  _id?: string;
+  distribution: string;
+  description?: string;
+  privacy: string;
+  createdBy?: string;
+  days: {
+    monday?: RoutineDay;
+    tuesday?: RoutineDay;
+    wednesday?: RoutineDay;
+    thursday?: RoutineDay;
+    friday?: RoutineDay;
+    saturday?: RoutineDay;
+    sunday?: RoutineDay;
+  };
 }
